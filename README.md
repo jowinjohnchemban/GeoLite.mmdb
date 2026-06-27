@@ -40,6 +40,22 @@ To use this repository's automation, you need:
 - A [MaxMind account](https://www.maxmind.com/en/account/login) with GeoLite2 access
 - Your MaxMind License Key stored as a GitHub secret (`LICENSE_KEY`)
 
+## Environment Variables
+
+The workflow relies on the following environment variables and secrets:
+
+- `LICENSE_KEY` — Required GitHub secret containing your MaxMind GeoLite2 license key.
+- `GITHUB_TOKEN` — Automatically provided by GitHub Actions for repository access. No manual setup is required.
+
+### Optional environment settings
+
+If you want to override or extend the workflow, you can add the following custom repository secrets or environment variables:
+
+- `RELEASE_NAME_PREFIX` — Optional prefix for release names.
+- `RELEASE_BODY_TEMPLATE` — Optional release notes template (if you later customize the workflow to support it).
+
+> Tip: Keep secrets private and never commit them to the repository.
+
 ## Workflow Details
 
 The GitHub Actions workflow:
