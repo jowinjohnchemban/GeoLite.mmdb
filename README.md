@@ -107,12 +107,12 @@ curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/actions/runs?
 ## License
 
 - **Database Contents:** © [MaxMind, Inc.](https://www.maxmind.com/) - All rights reserved
-- **Database License:** [GeoLite2 End jowinjohnchemban License Agreement](https://www.maxmind.com/en/geolite2/eula)
+- **Database License:** [GeoLite2 End User License Agreement](https://www.maxmind.com/en/geolite2/eula)
 - **Distribution License:** [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ## Disclaimer
 
-This repository is for distributing public GeoLite2 databases. jowinjohnchembans are responsible for:
+This repository is for distributing public GeoLite2 databases. Users are responsible for:
 - Obtaining proper licensing from MaxMind
 - Complying with MaxMind's terms of service
 - Adhering to applicable copyright and licensing terms
