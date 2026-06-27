@@ -1,14 +1,14 @@
 # GeoLite2 Database Repository
 
-[![GitHub Release](https://img.shields.io/github/v/release/USER/REPO?style=flat-square)](../../releases)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/USER/REPO/.github/workflows/GeoLite.yml?style=flat-square&label=Update)](../../actions)
-[![Stars](https://img.shields.io/github/stars/USER/REPO?style=flat-square)](../../stargazers)
-[![Forks](https://img.shields.io/github/forks/USER/REPO?style=flat-square)](../../network/members)
-[![Last Commit](https://img.shields.io/github/last-commit/USER/REPO?style=flat-square)](../../commits)
+[![GitHub Release](https://img.shields.io/github/v/release/jowinjohnchemban/GeoLite.mmdb?style=flat-square)](../../releases)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/jowinjohnchemban/GeoLite.mmdb/.github/workflows/GeoLite.yml?style=flat-square&label=Update)](../../actions)
+[![Stars](https://img.shields.io/github/stars/jowinjohnchemban/GeoLite.mmdb?style=flat-square)](../../stargazers)
+[![Forks](https://img.shields.io/github/forks/jowinjohnchemban/GeoLite.mmdb?style=flat-square)](../../network/members)
+[![Last Commit](https://img.shields.io/github/last-commit/jowinjohnchemban/GeoLite.mmdb?style=flat-square)](../../commits)
 
 Automated distribution of [MaxMind GeoLite2](https://dev.maxmind.com/geoip/geoip2/geolite2/) geolocation databases with regular updates via GitHub Actions.
 
-> **Note:** Replace `USER/REPO` in badges above with your repository path
+> **Note:** Replace `jowinjohnchemban/GeoLite.mmdb` in badges above with your repository path
 
 ## Overview
 
@@ -75,44 +75,44 @@ You can programmatically access the latest databases using GitHub API:
 ### Latest Release Assets
 ```bash
 # Get latest release metadata
-curl -s https://api.github.com/repos/USER/REPO/releases/latest
+curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/releases/latest
 
 # Download latest ASN database
 curl -L -o GeoLite2-ASN.mmdb \
-  $(curl -s https://api.github.com/repos/USER/REPO/releases/latest | \
+  $(curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/releases/latest | \
   grep 'browser_download_url.*GeoLite2-ASN' | cut -d'"' -f4)
 ```
 
 ### Check Release Information
 ```bash
 # List all releases
-curl -s https://api.github.com/repos/USER/REPO/releases
+curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/releases
 
 # Get specific release by date
-curl -s https://api.github.com/repos/USER/REPO/releases/tags/2026.06.27
+curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/releases/tags/2026.06.27
 ```
 
 ### Repository Statistics
 ```bash
 # Repository info
-curl -s https://api.github.com/repos/USER/REPO
+curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb
 
 # Workflow runs
-curl -s https://api.github.com/repos/USER/REPO/actions/runs
+curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/actions/runs
 
 # Latest workflow run
-curl -s https://api.github.com/repos/USER/REPO/actions/runs?status=success&limit=1
+curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/actions/runs?status=success&limit=1
 ```
 
 ## License
 
 - **Database Contents:** © [MaxMind, Inc.](https://www.maxmind.com/) - All rights reserved
-- **Database License:** [GeoLite2 End User License Agreement](https://www.maxmind.com/en/geolite2/eula)
+- **Database License:** [GeoLite2 End jowinjohnchemban License Agreement](https://www.maxmind.com/en/geolite2/eula)
 - **Distribution License:** [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ## Disclaimer
 
-This repository is for distributing public GeoLite2 databases. Users are responsible for:
+This repository is for distributing public GeoLite2 databases. jowinjohnchembans are responsible for:
 - Obtaining proper licensing from MaxMind
 - Complying with MaxMind's terms of service
 - Adhering to applicable copyright and licensing terms
