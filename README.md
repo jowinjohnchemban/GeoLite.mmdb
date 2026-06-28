@@ -8,11 +8,9 @@
 
 Automated distribution of [MaxMind GeoLite2](https://dev.maxmind.com/geoip/geoip2/geolite2/) geolocation databases with regular updates via GitHub Actions.
 
-> **Note:** Replace `jowinjohnchemban/GeoLite.mmdb` in badges above with your repository path
-
 ## Overview
 
-This repository automatically downloads and publishes the latest MaxMind GeoLite2 databases every three days. The workflow handles:
+This repository automatically downloads and publishes the latest MaxMind GeoLite2 databases on regular intervals. The workflow handles:
 
 - **ASN Database** - Autonomous System Number geolocation data
 - **City Database** - City-level geographic and network information
@@ -20,19 +18,12 @@ This repository automatically downloads and publishes the latest MaxMind GeoLite
 
 All databases are in MaxMind DB format (`.mmdb`) for efficient IP geolocation lookups.
 
-## Download Options
 
-### GitHub Releases
+## Download - GitHub Releases
 Latest databases are available in [GitHub Releases](../../releases):
 - [GeoLite2-ASN.mmdb](../../releases)
 - [GeoLite2-City.mmdb](../../releases)
 - [GeoLite2-Country.mmdb](../../releases)
-
-### Direct Download Branch
-Files are also available on the `download` branch:
-- [GeoLite2-ASN.mmdb](../../raw/download/GeoLite2-ASN.mmdb)
-- [GeoLite2-City.mmdb](../../raw/download/GeoLite2-City.mmdb)
-- [GeoLite2-Country.mmdb](../../raw/download/GeoLite2-Country.mmdb)
 
 ## Requirements
 
@@ -65,44 +56,6 @@ The GitHub Actions workflow:
 4. Maintains the download branch with latest files
 5. Cleans up old releases (keeps 2 most recent)
 6. Cleans up old workflow runs (keeps 2 most recent, 7-day retention)
-
-**Update Schedule:** Every 3 days at 01:00 UTC
-
-## GitHub API Integration
-
-You can programmatically access the latest databases using GitHub API:
-
-### Latest Release Assets
-```bash
-# Get latest release metadata
-curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/releases/latest
-
-# Download latest ASN database
-curl -L -o GeoLite2-ASN.mmdb \
-  $(curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/releases/latest | \
-  grep 'browser_download_url.*GeoLite2-ASN' | cut -d'"' -f4)
-```
-
-### Check Release Information
-```bash
-# List all releases
-curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/releases
-
-# Get specific release by date
-curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/releases/tags/2026.06.27
-```
-
-### Repository Statistics
-```bash
-# Repository info
-curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb
-
-# Workflow runs
-curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/actions/runs
-
-# Latest workflow run
-curl -s https://api.github.com/repos/jowinjohnchemban/GeoLite.mmdb/actions/runs?status=success&limit=1
-```
 
 ## License
 
