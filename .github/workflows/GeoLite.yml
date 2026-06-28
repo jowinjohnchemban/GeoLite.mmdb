@@ -3,6 +3,7 @@
 # Description: Publish GeoLite.mmdb
 #
 
+
 name: Publish GeoLite.mmdb
 
 permissions:
@@ -10,13 +11,13 @@ permissions:
   actions: write
 
 on:
-  repository_dispatch:
   workflow_dispatch:
+  repository_dispatch:
   schedule:
-    - cron: "0 1 */2 * *"
+    - cron: "0 1 */1 * *"
 
 jobs:
-  run:
+  publish:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -24,15 +25,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download GeoLite.mmdb
-        id: download
+      - name: Download GeoLite2 databases
         env:
           LICENSE_KEY: ${{ secrets.LICENSE_KEY }}
         run: |
           set -e
 
           if [ -z "$LICENSE_KEY" ]; then
-            echo "Error: LICENSE_KEY secret is not set"
+            echo "ERROR: LICENSE_KEY secret is not configured."
             exit 1
           fi
 
@@ -66,15 +66,11 @@ jobs:
           ls -lah upload/
 
           [ -n "$(ls upload/*.mmdb 2>/dev/null)" ] || {
-            echo "No .mmdb files found"
+            echo "ERROR: No .mmdb files found"
             exit 1
           }
 
-          echo "TAG_NAME=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
-
-          # Preserve files across checkout
-          mkdir -p /tmp/geolite
-          cp upload/*.mmdb /tmp/geolite/
+          echo "TAG_NAME=$(date +'%Y.%m.%d')" >> "$GITHUB_ENV"
 
           {
             echo "## 📊 Database Summary"
@@ -86,49 +82,20 @@ jobs:
 
           echo "✅ Download completed successfully"
 
-      - name: Checkout download branch
-        uses: actions/checkout@v4
-        with:
-          ref: download
-          fetch-depth: 0
-          clean: false
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit and push to download branch
-        id: push
+      - name: Delete existing release/tag if exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -e
+          gh release delete "${TAG_NAME}" --yes || true
+          git push --delete origin "${TAG_NAME}" || true
 
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          cp -f /tmp/geolite/*.mmdb .
-
-          git add *.mmdb
-
-          if git diff --cached --quiet; then
-            echo "✅ Databases are up-to-date"
-            echo "changes=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          echo "📤 Pushing updates to download branch..."
-
-          git commit -m "Update GeoLite databases - ${TAG_NAME}"
-          git push origin download
-
-          echo "changes=true" >> "$GITHUB_OUTPUT"
-
-          echo "✅ Successfully pushed to download branch" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload to Releases
-        if: steps.push.outputs.changes == 'true'
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG_NAME }}
           name: GeoLite Databases - ${{ env.TAG_NAME }}
           body: |
-            ## GeoLite2 Databases Update
+            ## GeoLite2 Databases
 
             Release Date: ${{ env.TAG_NAME }}
 
@@ -137,15 +104,13 @@ jobs:
             - GeoLite2-City
             - GeoLite2-Country
 
-            Automatically updated from MaxMind.
-          files: |
-            /tmp/geolite/*.mmdb
+            Source: MaxMind GeoLite2
+          files: upload/*.mmdb
           fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Remove old Releases
-        if: steps.push.outputs.changes == 'true'
+      - name: Remove old releases
         uses: dev-drprasad/delete-older-releases@v0.2.1
         with:
           keep_latest: 2
@@ -154,11 +119,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete old workflow runs
-        if: always()
         uses: Mattraks/delete-workflow-runs@v2
         with:
           retain_days: 7
           keep_minimum_runs: 2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
